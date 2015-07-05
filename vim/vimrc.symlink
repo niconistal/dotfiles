@@ -1,0 +1,290 @@
+" vim: foldmethod=marker
+
+    let mapleader = ','
+
+
+" General {{{1
+
+    set background=dark           " Assume a dark background
+
+    filetype plugin indent on     " Automatically detect file types
+    syntax on                     " Syntax hightlighting
+    syntax enable                 " Enable Syntax
+    scriptencoding utf-8
+
+    set history=100              " Store more history
+    set hidden                    " Allow buffer switching without saving
+
+    set backupdir=~/.vim/backup//
+    set directory=~/.vim/swap//
+    set undodir=~/.vim/undo//
+
+    set backspace=indent,eol,start
+
+
+" Vim UI {{{1
+
+    set showmode                  " Display the current mode
+
+    set showcmd                   " Display the current command
+
+    " Hide scrollbars
+    set guioptions-=L
+    set guioptions-=r
+
+    set number                    " Display line numbers
+    set showmatch                 " Show matching brackets/parenthesis
+    set incsearch                 " Find as you type search
+    set hlsearch                  " Highlight search
+    set ignorecase                " Case insensitive search
+    set wildmenu                    " Show list instead of just completing
+    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+    set scrolloff=3               " Minimum lines to keep above and below the cursor
+    set foldenable                " Autofold code
+    set list
+    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+
+    "break lines but only for text files
+    autocmd FileType text setlocal textwidth=78
+
+" Formating {{{1
+
+    set nowrap                    " Don't wrap lines
+    set autoindent                " Indent at the same level of the previous line
+
+    set shiftwidth=4              " Use indents of 4 spaces
+    set expandtab                 " Use spaces instead of tabs
+    set tabstop=4                 " An indentation every four columns
+    set softtabstop=4             " Let backspaces delete indent
+    set nojoinspaces              " Prevents inserting two spaces after puntuatuin on a join (J)
+    set splitright                " Puts new vertical splits to the right
+    set splitbelow                " Puts new horizontal splits below
+
+
+" Key Mappings {{{1
+
+
+    " Split mappgings
+    nnoremap ss :splitventer>
+    nnoremap vv :vsplit<enter>
+
+    " Move to the first non-white character
+    nnoremap 0 ^
+
+    " Space toggles the fold
+    nnoremap <Space> za
+
+    " Save files with <C-s>
+    nnoremap <C-s> :w<enter>
+    inoremap <C-s> <esc>:w<enter>a
+
+    " Edit .vimrc file #EditVim
+    nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+    " Source the vimrc #SourceVim
+    nnoremap <leader>sv :so $MYVIMRC<cr>
+
+    " Single and double quote current selection
+    vnoremap ' <esc>`>a'<esc>`<i'<esc>
+    vnoremap " <esc>`>a"<esc>`<i"<esc>
+
+    " Move the current line down
+    nnoremap - ddp
+
+    " Move the current line up
+    nnoremap _ ddkP
+
+    " Movement mappings {{{2
+
+        " Parentesis movement
+        onoremap p i(
+
+    " Disable the Arrow Keys{{{2
+    noremap <Up> <nop>
+    inoremap <Up> <nop>
+    noremap <Down> <nop>
+    inoremap <Down> <nop>
+    noremap <Left> <nop>
+    inoremap <Left> <nop>
+    noremap <Right> <nop>
+    inoremap <Right> <nop>
+
+
+" Command Mappings {{{1
+
+    command! Json %!python -m json.tool
+    command! W w
+
+
+" GUI Settings {{{1
+
+    set guifont=Menlo\ for\ Powerline:h12
+    set lines=40                            " 40 lines of text instead of 24
+    set background=dark
+    colorscheme solarized
+    let g:solarized_termcolors=256
+
+
+" Plugins {{{1
+
+    " Vundle Start {{{2
+    set nocompatible              " be iMproved, required
+    filetype off                  " required
+
+    " set the runtime path to include Vundle and initialize
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+    " alternatively, pass a path where Vundle should install plugins
+    "call vundle#begin('~/some/path/here')
+
+    " let Vundle manage Vundle, required
+    Plugin 'gmarik/Vundle.vim'
+
+    " Plugins {{{2
+
+    " PHP Syntax Plugin
+    Plugin 'StanAngeloff/php.vim'
+
+    " Ctrl-P Plugin
+    " Fuzzy file search
+    Plugin 'kien/ctrlp.vim'
+
+    " NERDTree
+    Plugin 'scrooloose/nerdtree'
+
+    " Surround
+    Plugin 'tpope/vim-surround'
+
+    " Vim Airline
+    Plugin 'bling/vim-airline'
+
+    " NERD Commenter
+    Plugin 'scrooloose/nerdcommenter'
+
+    " AutoPairs
+    " Automatically closes quotes, braces, etc.
+    Plugin 'jiangmiao/auto-pairs'
+
+    " Completition
+    Plugin 'SirVer/ultisnips'
+    Plugin 'honza/vim-snippets'
+
+    " Syntastic
+    Plugin 'scrooloose/syntastic'
+
+    " Vim Javascript
+    Plugin 'pangloss/vim-javascript'
+
+    " Emmet Plugin
+    Plugin 'mattn/emmet-vim'
+
+    " Vim-Repeat Plugin
+    Plugin 'tpope/vim-repeat'
+
+    " Vim Wildfire
+    " Select blocks using ENTER
+    Plugin 'gcmt/wildfire.vim'
+
+    " Twig Support
+    Plugin 'evidens/vim-twig'
+
+    " Ack Plugin
+    Plugin 'mileszs/ack.vim'
+
+    " Visual Star Search
+    Plugin 'bronson/vim-visual-star-search'
+
+
+    " Vim Exchange
+    " On the first use, define the first {motion} to exchange. On the second use, define the second {motion} and perform the exchange.
+    " cx
+    Plugin 'tommcdo/vim-exchange'
+
+
+    " Close Vundle {{{2
+
+    " All of your Plugins must be added before the following line
+    call vundle#end()            " required
+    filetype plugin indent on    " required
+    filetype plugin on
+    " To ignore plugin indent changes, instead use:
+    "filetype plugin on
+    "
+    " Brief help
+    " :PluginList       - lists configured plugins
+    " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+    " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+    " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+    "
+    " see :h vundle for more details or wiki for FAQ
+    " Put your non-Plugin stuff after this line
+
+
+" Plugins Config {{{1
+
+    " Sintastic Config {{{2
+
+        set statusline+=%#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 1
+        let g:syntastic_check_on_wq = 0
+
+
+    " Vim Airline Config {{{2
+
+        let g:airline_powerline_fonts=1
+        set laststatus=2
+        let g:airline_theme = 'solarized'
+
+
+    " NERDTree Config {{{2
+
+        "Automatically open NERDTree when vim starts even if no file is
+        "specified
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+        " Close Vim even if NERDTree is opened
+        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+        "Map NERDTree Toggle
+        map <C-n> :NERDTreeToggle<CR>
+
+
+    " Emmet Config {{{2
+
+        " Enable Emmet only for HTML, CSS and TWIG files
+        let g:user_emmet_install_global = 0
+        autocmd FileType html,css,twig EmmetInstall
+
+        " Redefine the trigger KEY, Default is <C-Y>
+        let g:user_emmet_leader_key='<C-Z>'
+
+    " }
+
+    " Wildfire {{{2
+
+        let g:wildfire_objects=["i'", 'i"', "i)", "i]", "i}", "ip"]
+
+
+    " Control-P {{{2
+
+        let g:ctrlp_map = '<leader>t'
+        set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+
+    " UltiSnips {{{2
+
+        let g:UltiSnipsExpandTrigger="<tab>"
+        let g:UltiSnipsJumpForwardTrigger="<c-j>"
+        let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+    " Ack config {{{2
+        let g:ackprg = 'ag --nogroup --nocolor --column'
+
+    " }}}
+" }}}
+
