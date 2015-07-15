@@ -26,9 +26,10 @@
 
     set hidden                    " Allow buffer switching without saving
 
-    set backupdir=~/.vim/backup// " Backup directory
-    set directory=~/.vim/swap//   " Swap directory
-    set undodir=~/.vim/undo//     " Undo directory
+    " Turn backup off, since most stuff is in SVN, git et.c anyway...
+    set nobackup
+    set nowb
+    set noswapfile
 
     set backspace=indent,eol,start
 
