@@ -1,25 +1,41 @@
 " vim: foldmethod=marker
 
-    let mapleader = ','
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"    _ _          _                 _      _          _   "
+"  _| | |_  _ _  (_) __  ___  _ _  (_) ___| |_  __ _ | |  "
+" |_  .  _|| ' \ | |/ _|/ _ \| ' \ | |(_-<|  _|/ _` || |  "
+" |_     _||_||_||_|\__|\___/|_||_||_|/__/ \__|\__,_||_|  "
+"   |_|_|                                                 "
+"                                                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+    let mapleader = "\<Space>"
+    nnoremap <Space> <nop>
 
 
 " General {{{1
 
-    set background=dark           " Assume a dark background
+    set background=dark           " Dark background
 
     filetype plugin indent on     " Automatically detect file types
     syntax on                     " Syntax hightlighting
     syntax enable                 " Enable Syntax
     scriptencoding utf-8
 
-    set history=100              " Store more history
     set hidden                    " Allow buffer switching without saving
 
-    set backupdir=~/.vim/backup//
-    set directory=~/.vim/swap//
-    set undodir=~/.vim/undo//
+    set backupdir=~/.vim/backup// " Backup directory
+    set directory=~/.vim/swap//   " Swap directory
+    set undodir=~/.vim/undo//     " Undo directory
 
     set backspace=indent,eol,start
+
+    " (Hopefully) removes the delay when hitting esc in insert mode
+    set noesckeys
+    set ttimeout
+    set ttimeoutlen=1
 
 
 " Vim UI {{{1
@@ -59,6 +75,8 @@
     set nojoinspaces              " Prevents inserting two spaces after puntuatuin on a join (J)
     set splitright                " Puts new vertical splits to the right
     set splitbelow                " Puts new horizontal splits below
+    set diffopt+=vertical         " Show diffs vertical
+    let g:enable_bold_font=1
 
 
 " Key Mappings {{{1
@@ -72,7 +90,7 @@
     nnoremap 0 ^
 
     " Space toggles the fold
-    nnoremap <Space> za
+    nnoremap <leader>f za
 
     " Save files with <C-s>
     nnoremap <C-s> :w<enter>
@@ -94,10 +112,21 @@
     " Move the current line up
     nnoremap _ ddkP
 
+    " Clear the search highlight
+    nnoremap <C-c> :nohlsearch<cr>
+
+    " Search function definition under the cursor in the file
+    nnoremap <C-d> :execute "normal! " . '/.\+function.\+' . expand("<cword>") . '.\+' . "\<lt>cr>"<cr>:nohlsearch<cr>
+
+    " Paste Event Message, also removes new lines and escapes quotes
+    autocmd! BufRead,BufNewFile,BufEnter *messages.json nnoremap <buffer> P :execute "normal! o\"Message\" : \"" . substitute(substitute(@+,'\\n', '', "g"), '\"', '\\\"', "g") . "\""<cr>
+
     " Movement mappings {{{2
 
         " Parentesis movement
         onoremap p i(
+        onoremap " i"
+        onoremap ' i'
 
     " Disable the Arrow Keys{{{2
     noremap <Up> <nop>
@@ -121,7 +150,7 @@
     set guifont=Menlo\ for\ Powerline:h12
     set lines=40                            " 40 lines of text instead of 24
     set background=dark
-    colorscheme solarized
+    colorscheme liquidcarbon
     let g:solarized_termcolors=256
 
 
@@ -141,6 +170,10 @@
     Plugin 'gmarik/Vundle.vim'
 
     " Plugins {{{2
+
+
+    " Sensible - Vim defaults that everyone can agree
+    Plugin 'tpope/vim-sensible'
 
     " PHP Syntax Plugin
     Plugin 'StanAngeloff/php.vim'
@@ -194,11 +227,17 @@
     " Visual Star Search
     Plugin 'bronson/vim-visual-star-search'
 
+    " Tabularize
+    Plugin 'godlygeek/tabular'
+
 
     " Vim Exchange
     " On the first use, define the first {motion} to exchange. On the second use, define the second {motion} and perform the exchange.
     " cx
     Plugin 'tommcdo/vim-exchange'
+
+    " Git Fugitive
+    Plugin 'tpope/vim-fugitive'
 
 
     " Close Vundle {{{2
@@ -238,7 +277,7 @@
 
         let g:airline_powerline_fonts=1
         set laststatus=2
-        let g:airline_theme = 'solarized'
+        let g:airline_theme = 'murmur'
 
 
     " NERDTree Config {{{2
