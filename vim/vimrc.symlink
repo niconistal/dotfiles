@@ -84,8 +84,8 @@
 
 
     " Split mappgings
-    nnoremap ss :splitventer>
-    nnoremap vv :vsplit<enter>
+    nnoremap ss :split<cr>
+    nnoremap vv :vsplit<cr>
 
     " Move to the first non-white character
     nnoremap 0 ^
@@ -114,7 +114,13 @@
     nnoremap _ ddkP
 
     " Clear the search highlight
-    nnoremap <C-c> :nohlsearch<cr>
+    map <silent> <leader><cr> :noh<cr>
+
+    " Smart way to move between windows
+    map <C-j> <C-W>j
+    map <C-k> <C-W>k
+    map <C-h> <C-W>h
+    map <C-l> <C-W>l
 
     " Search function definition under the cursor in the file
     nnoremap <C-d> :execute "normal! " . '/.\+function.\+' . expand("<cword>") . '.\+' . "\<lt>cr>"<cr>:nohlsearch<cr>
@@ -202,6 +208,7 @@
     " Completition
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'
+    Plugin 'Shougo/neocomplete.vim'
 
     " Syntastic
     Plugin 'scrooloose/syntastic'
@@ -321,6 +328,11 @@
         let g:UltiSnipsExpandTrigger="<tab>"
         let g:UltiSnipsJumpForwardTrigger="<c-j>"
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+    " NeoComplete {{{2
+
+        let g:neocomplete#enable_at_startup = 1
 
     " Ack config {{{2
         let g:ackprg = 'ag --nogroup --nocolor --column'
