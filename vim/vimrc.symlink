@@ -31,35 +31,28 @@
     set nowb
     set noswapfile
 
-    set backspace=indent,eol,start
 
     " (Hopefully) removes the delay when hitting esc in insert mode
     set noesckeys
-    set ttimeout
-    set ttimeoutlen=1
 
 
 " Vim UI {{{1
 
     set showmode                  " Display the current mode
 
-    set showcmd                   " Display the current command
 
     " Hide scrollbars
     set guioptions-=L
     set guioptions-=r
 
+    set relativenumber
     set number                    " Display line numbers
     set showmatch                 " Show matching brackets/parenthesis
-    set incsearch                 " Find as you type search
     set hlsearch                  " Highlight search
     set ignorecase                " Case insensitive search
-    set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-    set scrolloff=3               " Minimum lines to keep above and below the cursor
     set foldenable                " Autofold code
     set list
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
     "break lines but only for text files
     autocmd FileType text setlocal textwidth=78
@@ -67,7 +60,6 @@
 " Formating {{{1
 
     set nowrap                    " Don't wrap lines
-    set autoindent                " Indent at the same level of the previous line
 
     set shiftwidth=4              " Use indents of 4 spaces
     set expandtab                 " Use spaces instead of tabs
@@ -82,6 +74,43 @@
 
 " Key Mappings {{{1
 
+    "Leader Mappings {{{2
+
+        " Space toggles the fold
+        nnoremap <leader>f za
+
+        " Edit .vimrc file #EditVim
+        nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+        " Source the vimrc #SourceVim
+        nnoremap <leader>sv :so $MYVIMRC<cr>
+
+        " Clear the search highlight
+        map <silent> <leader><cr> :noh<cr>
+
+        " Only buffer
+        nnoremap <leader>o :only<cr>
+
+    " Control Mappings {{{2
+
+        " Save files with <C-s>
+        nnoremap <C-s> :w<enter>
+        inoremap <C-s> <esc>:w<enter>a
+
+        " Smart way to move between windows
+        map <C-j> <C-W>j
+        map <C-k> <C-W>k
+        map <C-h> <C-W>h
+        map <C-l> <C-W>l
+
+        " Search function definition under the cursor in the file
+        nnoremap <C-f> :execute "normal! " . '/.\+function.\+' . expand("<cword>") . '.\+' . "\<lt>cr>"<cr>:nohlsearch<cr>
+
+        " Paste system clipboard
+        nnoremap <C-p> "*p
+
+
+    " }}}
 
     " Split mappgings
     nnoremap ss :split<cr>
@@ -89,19 +118,6 @@
 
     " Move to the first non-white character
     nnoremap 0 ^
-
-    " Space toggles the fold
-    nnoremap <leader>f za
-
-    " Save files with <C-s>
-    nnoremap <C-s> :w<enter>
-    inoremap <C-s> <esc>:w<enter>a
-
-    " Edit .vimrc file #EditVim
-    nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-
-    " Source the vimrc #SourceVim
-    nnoremap <leader>sv :so $MYVIMRC<cr>
 
     " Single and double quote current selection
     vnoremap ' <esc>`>a'<esc>`<i'<esc>
@@ -113,17 +129,6 @@
     " Move the current line up
     nnoremap _ ddkP
 
-    " Clear the search highlight
-    map <silent> <leader><cr> :noh<cr>
-
-    " Smart way to move between windows
-    map <C-j> <C-W>j
-    map <C-k> <C-W>k
-    map <C-h> <C-W>h
-    map <C-l> <C-W>l
-
-    " Search function definition under the cursor in the file
-    nnoremap <C-d> :execute "normal! " . '/.\+function.\+' . expand("<cword>") . '.\+' . "\<lt>cr>"<cr>:nohlsearch<cr>
 
     " Paste Event Message, also removes new lines and escapes quotes
     autocmd! BufRead,BufNewFile,BufEnter *messages.json nnoremap <buffer> P :execute "normal! o\"Message\" : \"" . substitute(substitute(@+,'\\n', '', "g"), '\"', '\\\"', "g") . "\""<cr>
@@ -154,7 +159,7 @@
 
 " GUI Settings {{{1
 
-    set guifont=Menlo\ for\ Powerline:h12
+    set guifont=Hack:h12
     set lines=40                            " 40 lines of text instead of 24
     set background=dark
     colorscheme liquidcarbon
@@ -238,7 +243,6 @@
     " Tabularize
     Plugin 'godlygeek/tabular'
 
-
     " Vim Exchange
     " On the first use, define the first {motion} to exchange. On the second use, define the second {motion} and perform the exchange.
     " cx
@@ -246,6 +250,12 @@
 
     " Git Fugitive
     Plugin 'tpope/vim-fugitive'
+
+    " Vim Hardtime
+    Plugin 'takac/vim-hardtime'
+
+    " JsBeautify
+    Plugin 'maksimr/vim-jsbeautify'
 
 
     " Close Vundle {{{2
@@ -276,15 +286,15 @@
         set statusline+=%*
 
         let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_auto_loc_list = 0
         let g:syntastic_check_on_open = 1
         let g:syntastic_check_on_wq = 0
+        let g:syntastic_javascript_checkers = ['jshint']
 
 
     " Vim Airline Config {{{2
 
         let g:airline_powerline_fonts=1
-        set laststatus=2
         let g:airline_theme = 'murmur'
 
 
@@ -337,6 +347,37 @@
     " Ack config {{{2
         let g:ackprg = 'ag --nogroup --nocolor --column'
 
+
+    " JsBeautify Config {{{2
+
+        map <c-p> :call JsBeautify()<cr>
+        " or
+        autocmd FileType javascript noremap <buffer>  <c-p> :call JsBeautify()<cr>
+        " for html
+        autocmd FileType html noremap <buffer> <c-p> :call HtmlBeautify()<cr>
+        " for css or scss
+        autocmd FileType css noremap <buffer> <c-p> :call CSSBeautify()<cr>
+
     " }}}
+
+
+    " Vim Hardtime Config {{{2
+
+        " Enable Hardtime by default
+        let g:hardtime_default_on = 0
+        " Disable Hardtime in NERDTree
+        let g:hardtime_ignore_buffer_patterns = [ "CustomPatt[ae]rn", "NERD.*" ]
+        " Max count
+        let g:hardtime_maxcount = 5
+
+    " }}}
+
 " }}}
 
+" Syntax Checks and corrections {{{1
+
+    highlight ErrorHl ctermfg=red
+    autocmd BufWinEnter * match ErrorHl /){/
+    autocmd InsertEnter * match ErrorHl /){/
+    autocmd InsertLeave * match ErrorHl /){/
+    autocmd BufWinLeave * call clearmatches()
