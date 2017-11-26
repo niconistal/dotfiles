@@ -269,6 +269,12 @@
     " CoffeeScript Plugin
     Plugin 'kchmck/vim-coffee-script'
 
+    " Prettier
+    Plugin 'mitermayer/vim-prettier'
+
+    " Colors
+    Plugin 'maxmellon/vim-jsx-pretty'
+
 
     " Close Vundle {{{2
 
@@ -304,6 +310,12 @@
         let g:syntastic_javascript_checkers = ['eslint']
         let g:syntastic_jsx_checkers = ['eslint']
         let g:syntastic_jsx_jsxhint_exec = 'jsx-jshint-wrapper'
+
+    " Prettier Config {{{2
+        " print semicolons
+        let g:prettier#config#semi = 'false'
+        " print spaces between brackets
+        let g:prettier#config#bracket_spacing = 'true'
 
 
     " Vim Airline Config {{{2
@@ -364,9 +376,9 @@
 
     " JsBeautify Config {{{2
 
-        map <c-p> :call JsBeautify()<cr>
+        map <c-p> :Prettier<cr>
         " or
-        autocmd FileType javascript noremap <buffer>  <c-p> :call JsBeautify()<cr>
+        autocmd FileType javascript noremap <buffer>  <c-p> :Prettier<cr>
         " for html
         autocmd FileType html noremap <buffer> <c-p> :call HtmlBeautify()<cr>
         " for css or scss
