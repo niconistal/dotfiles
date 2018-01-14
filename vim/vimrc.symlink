@@ -31,11 +31,6 @@
     set nowb
     set noswapfile
 
-
-    " (Hopefully) removes the delay when hitting esc in insert mode
-    set noesckeys
-
-
 " Vim UI {{{1
 
     set showmode                  " Display the current mode
@@ -159,7 +154,6 @@
 
 " GUI Settings {{{1
 
-    set guifont=Hack:h12
     set lines=40                            " 40 lines of text instead of 24
     set background=dark
     colorscheme liquidcarbon
@@ -216,7 +210,7 @@
     " Completition
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'
-    Plugin 'Shougo/neocomplete.vim'
+    Plugin 'roxma/nvim-completion-manager'
 
     " Syntastic
     Plugin 'scrooloose/syntastic'
@@ -245,6 +239,9 @@
 
     " Tabularize
     Plugin 'godlygeek/tabular'
+
+    "Golang
+    Plugin 'fatih/vim-go'
 
     " Vim Exchange
     " On the first use, define the first {motion} to exchange. On the second use, define the second {motion} and perform the exchange.
@@ -366,9 +363,6 @@
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 
-    " NeoComplete {{{2
-
-        let g:neocomplete#enable_at_startup = 1
 
     " Ack config {{{2
         let g:ackprg = 'ag --nogroup --nocolor --column'
