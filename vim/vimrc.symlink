@@ -40,7 +40,6 @@
     set guioptions-=L
     set guioptions-=r
 
-    set relativenumber
     set number                    " Display line numbers
     set showmatch                 " Show matching brackets/parenthesis
     set hlsearch                  " Highlight search
@@ -65,6 +64,8 @@
     set splitbelow                " Puts new horizontal splits below
     set diffopt+=vertical         " Show diffs vertical
     let g:enable_bold_font=1
+
+    autocmd FileType go setlocal noexpandtab
 
 
 " Key Mappings {{{1
@@ -116,7 +117,6 @@
 
     " Single and double quote current selection
     vnoremap ' <esc>`>a'<esc>`<i'<esc>
-    vnoremap " <esc>`>a"<esc>`<i"<esc>
 
     " Move the current line down
     nnoremap - ddp
@@ -181,9 +181,6 @@
     " Sensible - Vim defaults that everyone can agree
     Plugin 'tpope/vim-sensible'
 
-    " PHP Syntax Plugin
-    Plugin 'StanAngeloff/php.vim'
-
     " Ctrl-P Plugin
     " Fuzzy file search
     Plugin 'kien/ctrlp.vim'
@@ -210,7 +207,7 @@
     " Completition
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'
-    Plugin 'roxma/nvim-completion-manager'
+    Plugin 'Shougo/neocomplete.vim'
 
     " Syntastic
     Plugin 'scrooloose/syntastic'
@@ -228,25 +225,14 @@
     " Select blocks using ENTER
     Plugin 'gcmt/wildfire.vim'
 
-    " Twig Support
-    Plugin 'evidens/vim-twig'
-
     " Ack Plugin
     Plugin 'mileszs/ack.vim'
 
     " Visual Star Search
     Plugin 'bronson/vim-visual-star-search'
 
-    " Tabularize
-    Plugin 'godlygeek/tabular'
-
     "Golang
     Plugin 'fatih/vim-go'
-
-    " Vim Exchange
-    " On the first use, define the first {motion} to exchange. On the second use, define the second {motion} and perform the exchange.
-    " cx
-    Plugin 'tommcdo/vim-exchange'
 
     " Git Fugitive
     Plugin 'tpope/vim-fugitive'
@@ -257,14 +243,8 @@
     " JsBeautify
     Plugin 'maksimr/vim-jsbeautify'
 
-    " JSX Plugin
-    Plugin 'mxw/vim-jsx'
-
     " ES6 Plugin
     Plugin 'isRuslan/vim-es6'
-
-    " CoffeeScript Plugin
-    Plugin 'kchmck/vim-coffee-script'
 
     " Prettier
     Plugin 'mitermayer/vim-prettier'
@@ -272,12 +252,17 @@
     " Colors
     Plugin 'maxmellon/vim-jsx-pretty'
 
+    "PHP identation
+    Plugin '2072/PHP-Indenting-for-VIm'
+
+    " CSV format
+    Plugin 'chrisbra/csv.vim'
 
     " Close Vundle {{{2
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
-    filetype plugin indent on    " required
+"    filetype plugin indent on    " required"
     filetype plugin on
     " To ignore plugin indent changes, instead use:
     "filetype plugin on
@@ -354,7 +339,18 @@
     " Control-P {{{2
 
         let g:ctrlp_map = '<leader>t'
-        set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+        set wildignore+=*/tmp/*,*.so,*.swp,*.zip,node_modules/*,*/node_modules/*     " MacOSX/Linux
+
+        " Packages
+        if executable('rg')
+          set grepprg=rg\ --color=never
+          let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+          let g:ctrlp_use_caching = 0
+        endif
+        let g:ctrlp_custom_ignore = {
+         \ 'dir': '\.git$\|\.yardoc\|bower_components|node_modules|public$|log\|tmp$',
+         \ 'file': '\.so$\|\.dat$|\.DS_Store$'
+         \ }
 
     " UltiSnips {{{2
 
@@ -363,8 +359,12 @@
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 
+    " NeoComplete {{{2
+
+        let g:neocomplete#enable_at_startup = 1
 
     " Ack config {{{2
+
         let g:ackprg = 'ag --nogroup --nocolor --column'
 
 
@@ -401,3 +401,4 @@
     autocmd InsertEnter * match ErrorHl /){/
     autocmd InsertLeave * match ErrorHl /){/
     autocmd BufWinLeave * call clearmatches()
+
