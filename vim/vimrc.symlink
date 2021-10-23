@@ -247,7 +247,7 @@
     Plugin 'isRuslan/vim-es6'
 
     " Prettier
-    Plugin 'mitermayer/vim-prettier'
+    Plugin 'prettier/vim-prettier'
 
     " Colors
     Plugin 'maxmellon/vim-jsx-pretty'
@@ -402,3 +402,5 @@
     autocmd InsertLeave * match ErrorHl /){/
     autocmd BufWinLeave * call clearmatches()
 
+set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
+set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.8

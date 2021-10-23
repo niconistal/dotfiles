@@ -49,13 +49,13 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow node aws brew composer sudo zsh-syntax-highlighting tmux tmuxinator)
+plugins=(git git-flow node aws brew composer sudo)
 
 # User configuration
 #
 export GOPATH="/Users/niconistal/go"
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:${GOPATH}/bin:/Users/niconistal/miniconda3/bin:${PATH}"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:${GOPATH}/bin:/Users/niconistal/anaconda3/bin:${PATH}"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -92,15 +92,31 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Init ruby env [Used for version control of ruby]
-eval "$(rbenv init -)"
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/niconistal/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/niconistal/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/niconistal/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/niconistal/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+
 export=/Users/niconistal/pdfc-master/:/Users/niconistal/.rbenv/shims:/Users/niconistal/.nvm/versions/node/v10.16.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/niconistal/go/bin:/Users/niconistal/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/opt/X11/bin
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/niconistal/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/niconistal/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/niconistal/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/niconistal/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+alias mvim="open -a MacVim.app $1"
+
+source ~/kubernetes.sh
+# Added by serverless binary installer
+export PATH="$HOME/.serverless/bin:$PATH"
+export PATH="/usr/local/opt/libpcap/bin:$PATH"
+export PATH="/usr/local/opt/libpcap/bin:$PATH"
